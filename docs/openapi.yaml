@@ -1,0 +1,242 @@
+openapi: 3.0.0
+info:
+  title: Hotel Reservation Back-Office API
+  version: 1.0.0
+  description: API for managing hotel reservations, users, and payments.
+servers:
+  - url: http://localhost:3000
+    description: Local development server
+
+paths:
+  /auth/register:
+    post:
+      summary: Register a new user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                email:
+                  type: string
+                password:
+                  type: string
+                role_code:
+                  type: string
+      responses:
+        '201':
+          description: User registered successfully
+
+  /auth/login:
+    post:
+      summary: Authenticate user and get JWT token
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+      responses:
+        '200':
+          description: Login successful, returns JWT token
+
+  /users:
+    get:
+      summary: Get all users
+      responses:
+        '200':
+          description: Returns a list of users
+    put:
+      summary: Update user details
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: User updated successfully
+
+  /users/{id}:
+    get:
+      summary: Get user details
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Returns user details
+
+  /roles:
+    post:
+      summary: Create a new role
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                code:
+                  type: string
+                name:
+                  type: string
+                description:
+                  type: string
+      responses:
+        '201':
+          description: Role created successfully
+    get:
+      summary: Get all roles
+      responses:
+        '200':
+          description: Returns a list of roles
+    put:
+      summary: Update role details
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: Role updated successfully
+
+  /rooms:
+    post:
+      summary: Create a room
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '201':
+          description: Room created successfully
+    get:
+      summary: Get all rooms
+      responses:
+        '200':
+          description: Returns a list of rooms
+
+  /rooms/availability:
+    get:
+      summary: Check room availability for a date range
+      parameters:
+        - name: check_in
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date
+        - name: check_out
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date
+      responses:
+        '200':
+          description: Returns available rooms for the given date range
+
+  /rooms/{id}:
+    get:
+      summary: Get room details
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Returns room details
+    put:
+      summary: Update room details
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: Room updated successfully
+
+  /reservations:
+    post:
+      summary: Create a new reservation
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                guest_id:
+                  type: string
+                check_in:
+                  type: string
+                  format: date
+                check_out:
+                  type: string
+                  format: date
+                room_id:
+                  type: string
+      responses:
+        '201':
+          description: Reservation created successfully
+    get:
+      summary: Get all reservations
+      responses:
+        '200':
+          description: Returns a list of reservations
+
+  /reservations/{id}:
+    get:
+      summary: Get reservation details
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Returns reservation details
+    put:
+      summary: Update reservation details
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: Reservation updated successfully
+    delete:
+      summary: Delete a reservation
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Reservation deleted successfully

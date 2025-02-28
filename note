@@ -1,0 +1,14 @@
+SELECT r.id, r.number, r.type, r.price, r.status
+FROM rooms r
+WHERE r.status = 'Available'
+AND NOT EXISTS (
+    SELECT 1 FROM reservations res
+    JOIN reservation_details rd ON res.id = rd.reservation_id
+    WHERE rd.room_id = r.id
+    AND res.status = 'Confirmed'
+    AND (
+        '2025-03-10' BETWEEN res.check_in AND res.check_out
+        OR '2025-03-15' BETWEEN res.check_in AND res.check_out
+        OR res.check_in BETWEEN '2025-03-10' AND '2025-03-15'
+    )
+);
