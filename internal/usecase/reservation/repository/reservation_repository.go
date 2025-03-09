@@ -1,0 +1,23 @@
+package repository
+
+import (
+	"github.com/tubfuzzy/banraiphisan-reservation/config"
+	"github.com/tubfuzzy/banraiphisan-reservation/internal/domain"
+	"github.com/tubfuzzy/banraiphisan-reservation/pkg/cache"
+	"github.com/tubfuzzy/banraiphisan-reservation/pkg/db"
+	"github.com/tubfuzzy/banraiphisan-reservation/pkg/logger"
+)
+
+type ReservationRepository struct {
+	conf  *config.Configuration
+	db    *db.DB
+	Cache cache.Engine
+}
+
+func NewReservationRepository(db *db.DB, _ logger.Logger, cache cache.Engine, cfg *config.Configuration) domain.ReservationRepository {
+	return &ReservationRepository{
+		conf:  cfg,
+		db:    db,
+		Cache: cache,
+	}
+}

@@ -18,6 +18,7 @@ import (
 	"github.com/tubfuzzy/banraiphisan-reservation/pkg/common/exception"
 	dbPkg "github.com/tubfuzzy/banraiphisan-reservation/pkg/db"
 	loggerPkg "github.com/tubfuzzy/banraiphisan-reservation/pkg/logger"
+	minioPkg "github.com/tubfuzzy/banraiphisan-reservation/pkg/minio"
 )
 
 type Server struct {
@@ -26,6 +27,7 @@ type Server struct {
 	db     *dbPkg.DB
 	cache  cachePkg.Engine
 	logger loggerPkg.Logger
+	minio  *minioPkg.MinioClient
 }
 
 func New() (*Server, error) {
@@ -42,8 +44,11 @@ func New() (*Server, error) {
 	if err != nil {
 		return nil, err
 	}
-
-	app := NewFiberApp(conf, logger, cacheEngine, db)
+	minioClient, err := minioPkg.New(conf.Minio)
+	if err != nil {
+		return nil, err
+	}
+	app := NewFiberApp(conf, logger, cacheEngine, db, minioClient)
 
 	return &Server{
 		app:    app,
@@ -51,6 +56,7 @@ func New() (*Server, error) {
 		db:     db,
 		cache:  cacheEngine,
 		logger: logger,
+		minio:  minioClient,
 	}, nil
 }
 
@@ -59,6 +65,7 @@ func NewFiberApp(
 	logger loggerPkg.Logger,
 	cacheEngine cachePkg.Engine,
 	db *dbPkg.DB,
+	minioClient *minioPkg.MinioClient,
 ) *fiber.App {
 	app := fiber.New(fiber.Config{
 		ErrorHandler: exception.ErrorHandler,
@@ -84,7 +91,7 @@ func NewFiberApp(
 
 	basePath := conf.Server.BaseURI
 	api := app.Group(basePath + "/api")
-	myapp.NewApplication(api, logger, db, cacheEngine, conf)
+	myapp.NewApplication(api, logger, db, cacheEngine, conf, minioClient)
 
 	app.Get("/healthz", func(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusOK).JSON(fiber.Map{
@@ -118,4 +125,8 @@ func (serv Server) DB() *dbPkg.DB {
 
 func (serv Server) Cache() cachePkg.Engine {
 	return serv.cache
+}
+
+func (serv Server) Minio() *minioPkg.MinioClient {
+	return serv.minio
 }

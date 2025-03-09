@@ -29,8 +29,7 @@ func main() {
 	err = serv.App().Shutdown()
 
 	defer serv.Cache().Close()
-
-	//defer serv.DB().Close()
+	// defer serv.DB().Close()
 
 	if err != nil {
 		serv.Logger().Fatalf("%s", err)

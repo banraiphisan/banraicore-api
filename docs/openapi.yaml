@@ -40,7 +40,7 @@ paths:
             schema:
               type: object
               properties:
-                email:
+                username:
                   type: string
                 password:
                   type: string
@@ -240,3 +240,51 @@ paths:
       responses:
         '200':
           description: Reservation deleted successfully
+  /reports/revenue:
+    get:
+      summary: Get revenue summary
+      parameters:
+        - name: period
+          in: query
+          required: true
+          schema:
+            type: string
+            enum: [ daily, monthly, yearly ]
+      responses:
+        '200':
+          description: Returns revenue summary
+
+  /reports/bookings:
+    get:
+      summary: Get bookings summary
+      parameters:
+        - name: period
+          in: query
+          required: true
+          schema:
+            type: string
+            enum: [ daily, monthly, yearly ]
+      responses:
+        '200':
+          description: Returns bookings summary
+
+  /reports/room-bookings:
+    get:
+      summary: Get bookings per room
+      responses:
+        '200':
+          description: Returns booking count per room
+
+  /reports/most-booked-room:
+    get:
+      summary: Get most booked room
+      responses:
+        '200':
+          description: Returns the most booked room
+
+  /reports/occupancy-rate:
+    get:
+      summary: Get room occupancy rate
+      responses:
+        '200':
+          description: Returns room occupancy rate

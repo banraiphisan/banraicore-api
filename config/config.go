@@ -16,6 +16,7 @@ type Configuration struct {
 	Logger        Logger             `envconfig:"LOGGER"`
 	Redis         RedisConfig        `envconfig:"REDIS"`
 	RedisCluster  RedisClusterConfig `envconfig:"REDIS_CLUSTER"`
+	Minio         MinioConfig        `envconfig:"MINIO"`
 }
 
 type ServerConfig struct {
@@ -35,8 +36,16 @@ type ServerConfig struct {
 }
 
 type DatabaseConfig struct {
+	Host            string `envconfig:"HOST" default:"localhost"`
+	Port            string `envconfig:"PORT" default:"5432"`
+	User            string `envconfig:"USER" default:"postgres"`
+	Password        string `envconfig:"PASSWORD" default:""`
+	Database        string `envconfig:"NAME" default:"hotel_reservation"`
+	MaxPoolOpen     int    `envconfig:"MAX_POOL_OPEN" default:"50"`
+	MaxPoolIdle     int    `envconfig:"MAX_POOL_IDLE" default:"10"`
+	MaxPollLifeTime int    `envconfig:"MAX_POLL_LIFETIME" default:"300000"`
+	LogLevel        string `envconfig:"LOG_LEVEL" default:"SILENT"` // Options: "SILENT", "INFO", "WARN", "ERROR"
 }
-
 type Authorization struct {
 	JWTSecret           string `envconfig:"JWT_SECRET" default:"ais-jwt"`
 	JwtExpired          int    `envconfig:"JWT_EXPIRATION" default:"3600"`
@@ -71,6 +80,15 @@ type RedisClusterConfig struct {
 	PoolTimeout int    `envconfig:"REDIS_CLUSTER_POOL_TIMEOUT"`
 	Password    string `envconfig:"REDIS_CLUSTER_PASSWORD"`
 	DB          int    `envconfig:"REDIS_CLUSTER_DB"`
+}
+
+type MinioConfig struct {
+	Endpoint  string `envconfig:"ENDPOINT" default:"http://localhost"`
+	Port      string `envconfig:"PORT" default:"9000"`
+	AccessKey string `envconfig:"ACCESS_KEY" default:"admin"`
+	SecretKey string `envconfig:"SECRET_KEY" default:"admin123"`
+	Bucket    string `envconfig:"BUCKET" default:"hotel-storage"`
+	UseSSL    bool   `envconfig:"USE_SSL" default:"false"`
 }
 
 func NewConfig() (*Configuration, error) {
