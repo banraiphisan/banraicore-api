@@ -59,8 +59,20 @@ jobs:
 
       - name: Debug kubeconfig
         run: |
+          echo "🔍 Current contexts:"
           kubectl config get-contexts
-          kubectl config current-context
+          echo "🔍 Current context:"
+          kubectl config current-context || echo "⚠️ No current context is set"
+          echo "🔍 Trying to set context to the first available one..."
+          CONTEXT=$(kubectl config get-contexts -o name | head -n1)
+          if [ -n "$CONTEXT" ]; then
+            echo "✅ Using context: $CONTEXT"
+            kubectl config use-context "$CONTEXT"
+          else
+            echo "❌ No contexts found in kubeconfig"
+            exit 1
+          fi
+          echo "🔍 Cluster Info:"
           kubectl cluster-info
 
       - name: Checkout deployment manifests
