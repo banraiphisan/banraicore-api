@@ -49,38 +49,6 @@ jobs:
           HOME: /home/github-runner
           USER: github-runner
 
-      - name: Verify kubeconfig and context
-        run: |
-          echo "🔍 Kubeconfig content:"
-          cat $HOME/.kube/config
-          echo "🔍 Available contexts:"
-          kubectl config get-contexts
-          echo "🔍 Current context:"
-          kubectl config current-context
-          echo "✅ Kubeconfig seems loaded if current-context is shown above"
-        env:
-          HOME: /home/github-runner
-
-      - name: Debug kubeconfig
-        run: |
-          export KUBECONFIG=$HOME/.kube/config
-          echo "🔍 Current contexts:"
-          kubectl config get-contexts
-          echo "🔍 Current context:"
-          kubectl config current-context || echo "⚠️ No current context is set"
-          echo "🔍 Trying to set context to the first available one..."
-          export KUBECONFIG=$HOME/.kube/config
-          CONTEXT=$(kubectl config get-contexts -o name | head -n1)
-          if [ -n "$CONTEXT" ]; then
-            echo "✅ Using context: $CONTEXT"
-            kubectl config use-context "$CONTEXT"
-          else
-            echo "❌ No contexts found in kubeconfig"
-            exit 1
-          fi
-          echo "🔍 Cluster Info:"
-          kubectl cluster-info
-
       - name: Checkout deployment manifests
         uses: actions/checkout@v3
         with:
