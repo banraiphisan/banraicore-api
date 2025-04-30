@@ -9,7 +9,7 @@ jobs:
     name: Deploy to self-hosted Kubernetes
     runs-on: [ self-hosted, k8s-runner ]
     env:
-      DEPLOYMENT_REPO: git@github.com:banraiphisan/deployment.git
+      DEPLOYMENT_REPO: banraiphisan/deployment
       DEPLOYMENT_PATH: k8s/apps/banraicore-api/
 
     steps:
@@ -41,7 +41,7 @@ jobs:
       - name: Checkout deployment manifests
         uses: actions/checkout@v3
         with:
-          repository: banraiphisan/deployment
+          repository: ${{ env.DEPLOYMENT_REPO }}
           path: k8s
           token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
 
