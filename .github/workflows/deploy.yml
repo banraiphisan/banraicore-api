@@ -34,7 +34,7 @@ jobs:
       - name: Set up Kubeconfig
         run: |
           mkdir -p $HOME/.kube
-          echo "${{ secrets.KUBECONFIG_DATA }}" | base64 -d > $HOME/.kube/config
+          echo "${{ secrets.KUBECONFIG_DATA }}" | base64 -d | tee $HOME/.kube/config > /dev/null
         env:
           HOME: /home/github-runner
 
