@@ -90,4 +90,4 @@ jobs:
 
       - name: Apply manifests
         run: |
-          kubectl apply -f ${{ env.DEPLOYMENT_PATH }}
+          kubectl apply -f k8s/${{ env.DEPLOYMENT_PATH }}
