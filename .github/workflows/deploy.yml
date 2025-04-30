@@ -46,7 +46,10 @@ jobs:
           USER: github-runner
 
       - name: Set current context
-        run: kubectl config use-context kubernetes-admin@kubernetes
+        run: |
+          CONTEXT=$(kubectl config get-contexts -o name | head -n1)
+          echo "Using context: $CONTEXT"
+          kubectl config use-context "$CONTEXT"
 
       - name: Debug kubeconfig
         run: |
