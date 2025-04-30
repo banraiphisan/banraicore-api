@@ -59,12 +59,14 @@ jobs:
 
       - name: Debug kubeconfig
         run: |
+          export KUBECONFIG=$HOME/.kube/config
           echo "🔍 Current contexts:"
           kubectl config get-contexts
           echo "🔍 Current context:"
           kubectl config current-context || echo "⚠️ No current context is set"
           echo "🔍 Trying to set context to the first available one..."
-          CONTEXT=$(KUBECONFIG=$HOME/.kube/config kubectl config get-contexts -o name | head -n1)
+          export KUBECONFIG=$HOME/.kube/config
+          CONTEXT=$(kubectl config get-contexts -o name | head -n1)
           if [ -n "$CONTEXT" ]; then
             echo "✅ Using context: $CONTEXT"
             kubectl config use-context "$CONTEXT"
