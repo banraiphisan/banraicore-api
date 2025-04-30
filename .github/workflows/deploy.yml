@@ -45,14 +45,14 @@ jobs:
           HOME: /home/github-runner
           USER: github-runner
 
+      - name: Set current context
+        run: kubectl config use-context kubernetes-admin@kubernetes
+
       - name: Debug kubeconfig
         run: |
           kubectl config get-contexts
           kubectl config current-context
           kubectl cluster-info
-
-      - name: Set current context
-        run: kubectl config use-context kubernetes-admin@kubernetes
 
       - name: Checkout deployment manifests
         uses: actions/checkout@v3
