@@ -38,6 +38,19 @@ jobs:
         env:
           HOME: /home/github-runner
 
+      - name: Fix kubeconfig permissions
+        run: |
+          chown $USER:$USER $HOME/.kube/config
+        env:
+          HOME: /home/github-runner
+          USER: github-runner
+
+      - name: Debug kubeconfig
+        run: |
+          kubectl config get-contexts
+          kubectl config current-context
+          kubectl cluster-info
+
       - name: Checkout deployment manifests
         uses: actions/checkout@v3
         with:
