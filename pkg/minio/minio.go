@@ -2,6 +2,7 @@ package minio
 
 import (
 	"context"
+	"crypto/tls"
 	"fmt"
 	"github.com/minio/minio-go/v7"
 	"github.com/minio/minio-go/v7/pkg/credentials"
@@ -39,7 +40,8 @@ func New(cfg config.MinioConfig) (*MinioClient, error) {
 		Creds:  credentials.NewStaticV4(cfg.AccessKey, cfg.SecretKey, ""),
 		Secure: cfg.UseSSL,
 		Transport: &http.Transport{
-			Proxy: http.ProxyFromEnvironment,
+			TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
+			Proxy:           http.ProxyFromEnvironment,
 		},
 	}
 	client, err := minio.New(sanitizedEndpoint, &options)
