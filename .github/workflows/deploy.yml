@@ -7,7 +7,7 @@ on:
 jobs:
   deploy:
     name: Deploy to self-hosted Kubernetes
-    runs-on: [ self-hosted, linux, k8s-runner ]
+    runs-on: [ self-hosted, k8s-runner ]
     env:
       DEPLOYMENT_REPO: git@github.com:banraiphisan/deployment.git
       DEPLOYMENT_PATH: k8s/apps/banraicore-api/
