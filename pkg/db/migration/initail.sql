@@ -10,7 +10,7 @@ create table roles
 );
 
 alter table roles
-    owner to hotel_reservation;
+    owner to banraiphisan;
 
 create table permissions
 (
@@ -22,7 +22,7 @@ create table permissions
 );
 
 alter table permissions
-    owner to hotel_reservation;
+    owner to banraiphisan;
 
 create table role_permissions
 (
@@ -36,7 +36,7 @@ create table role_permissions
 );
 
 alter table role_permissions
-    owner to hotel_reservation;
+    owner to banraiphisan;
 
 create table users
 (
@@ -54,7 +54,7 @@ create table users
 );
 
 alter table users
-    owner to hotel_reservation;
+    owner to banraiphisan;
 
 create table guests
 (
@@ -70,7 +70,7 @@ create table guests
 );
 
 alter table guests
-    owner to hotel_reservation;
+    owner to banraiphisan;
 
 create table rooms
 (
@@ -88,7 +88,7 @@ create table rooms
 );
 
 alter table rooms
-    owner to hotel_reservation;
+    owner to banraiphisan;
 
 create table reservations
 (
@@ -107,7 +107,7 @@ create table reservations
 );
 
 alter table reservations
-    owner to hotel_reservation;
+    owner to banraiphisan;
 
 create table reservation_details
 (
@@ -122,7 +122,7 @@ create table reservation_details
 );
 
 alter table reservation_details
-    owner to hotel_reservation;
+    owner to banraiphisan;
 
 create table payments
 (
@@ -144,7 +144,7 @@ create table payments
 );
 
 alter table payments
-    owner to hotel_reservation;
+    owner to banraiphisan;
 
 create table invoices
 (
@@ -158,7 +158,7 @@ create table invoices
 );
 
 alter table invoices
-    owner to hotel_reservation;
+    owner to banraiphisan;
 
 create table room_services
 (
@@ -173,7 +173,7 @@ create table room_services
 );
 
 alter table room_services
-    owner to hotel_reservation;
+    owner to banraiphisan;
 
 create table housekeeping
 (
@@ -192,7 +192,7 @@ create table housekeeping
     );
 
 alter table housekeeping
-    owner to hotel_reservation;
+    owner to banraiphisan;
 
 create table audit_logs
 (
@@ -208,7 +208,7 @@ create table audit_logs
 );
 
 alter table audit_logs
-    owner to hotel_reservation;
+    owner to banraiphisan;
 
 CREATE TABLE permissions (
                              id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -217,7 +217,7 @@ CREATE TABLE permissions (
 );
 
 alter table permissions
-    owner to hotel_reservation;
+    owner to banraiphisan;
 
 CREATE TABLE role_permissions (
                                   role_id UUID REFERENCES roles(id) ON DELETE CASCADE,
@@ -226,7 +226,7 @@ CREATE TABLE role_permissions (
 );
 
 alter table role_permissions
-    owner to hotel_reservation;
+    owner to banraiphisan;
 
 ALTER TABLE users ADD COLUMN updated_at TIMESTAMP DEFAULT now();
 ALTER TABLE rooms ADD COLUMN updated_at TIMESTAMP DEFAULT now();
