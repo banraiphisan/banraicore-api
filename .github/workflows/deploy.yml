@@ -1,0 +1,36 @@
+name: Deploy to Kubernetes
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    name: Deploy to self-hosted Kubernetes
+    runs-on: [ self-hosted, k8s-runner ]
+    env:
+      DEPLOYMENT_REPO: git@github.com:banraiphisan/deployment.git
+      DEPLOYMENT_PATH: k8s/apps/banraicore-api/
+
+    steps:
+      - name: Checkout app repo
+        uses: actions/checkout@v3
+
+      - name: Set up kubectl
+        uses: azure/setup-kubectl@v3
+        with:
+          version: 'v1.27.0'
+
+      - name: Set up Kubeconfig
+        run: echo "${{ secrets.KUBECONFIG_DATA }}" | base64 -d > $HOME/.kube/config
+
+      - name: Checkout deployment manifests
+        uses: actions/checkout@v3
+        with:
+          repository: banraiphisan/deployment
+          path: k8s
+          token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+
+      - name: Apply manifests
+        run: |
+          kubectl apply -f ${{ env.DEPLOYMENT_PATH }}
