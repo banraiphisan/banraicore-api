@@ -1,8 +1,6 @@
 package app
 
 import (
-	"context"
-	"fmt"
 	"github.com/gofiber/fiber/v2"
 	"github.com/tubfuzzy/banraiphisan-reservation/config"
 	"github.com/tubfuzzy/banraiphisan-reservation/pkg/cache"
@@ -29,6 +27,10 @@ import (
 	userhandler "github.com/tubfuzzy/banraiphisan-reservation/internal/usecase/user/controller/http"
 	userrepository "github.com/tubfuzzy/banraiphisan-reservation/internal/usecase/user/repository"
 	userservice "github.com/tubfuzzy/banraiphisan-reservation/internal/usecase/user/service"
+
+	shorturlhandler "github.com/tubfuzzy/banraiphisan-reservation/internal/usecase/shorturl/controller/http"
+	shorturlrepository "github.com/tubfuzzy/banraiphisan-reservation/internal/usecase/shorturl/repository"
+	shorturlservice "github.com/tubfuzzy/banraiphisan-reservation/internal/usecase/shorturl/service"
 )
 
 func NewApplication(api fiber.Router, logger logger.Logger, db *db.DB, cache cache.Engine, config *config.Configuration, minioClient *minioPkg.MinioClient) {
@@ -58,9 +60,10 @@ func NewApplication(api fiber.Router, logger logger.Logger, db *db.DB, cache cac
 	userService := userservice.NewUserService(userRepository, cache, logger, config)
 	userHandler := userhandler.NewUserHandler(userService, config)
 	userHandler.InitRoute(v1)
-	po, err := minioClient.GetBucketPolicy(context.Background(), "banraiphisan")
-	if err != nil {
-		fmt.Errorf("%v", err)
-	}
-	fmt.Println(po)
+
+	shortUrlRepository := shorturlrepository.NewShortUrlRepository(db, logger, cache, config)
+	shortUrlService := shorturlservice.NewShortUrlService(shortUrlRepository, cache, logger, config)
+	shortUrlHandler := shorturlhandler.NewShortUrlHandler(shortUrlService, config)
+	shortUrlHandler.InitRoute(v1)
+
 }
