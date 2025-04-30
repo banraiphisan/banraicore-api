@@ -45,11 +45,17 @@ jobs:
           HOME: /home/github-runner
           USER: github-runner
 
-      - name: Set current context
+      - name: Verify kubeconfig and context
         run: |
-          CONTEXT=$(kubectl config get-contexts -o name | head -n1)
-          echo "Using context: $CONTEXT"
-          kubectl config use-context "$CONTEXT"
+          echo "🔍 Kubeconfig content:"
+          cat $HOME/.kube/config
+          echo "🔍 Available contexts:"
+          kubectl config get-contexts
+          echo "🔍 Current context:"
+          kubectl config current-context
+          echo "✅ Kubeconfig seems loaded if current-context is shown above"
+        env:
+          HOME: /home/github-runner
 
       - name: Debug kubeconfig
         run: |
