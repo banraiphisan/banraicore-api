@@ -1,10 +1,10 @@
 package service
 
 import (
-	"github.com/tubfuzzy/banraicore-api/config"
-	"github.com/tubfuzzy/banraicore-api/internal/domain"
-	"github.com/tubfuzzy/banraicore-api/pkg/cache"
-	"github.com/tubfuzzy/banraicore-api/pkg/logger"
+	"github.com/banraiphisan/banraicore-api/config"
+	"github.com/banraiphisan/banraicore-api/internal/domain"
+	"github.com/banraiphisan/banraicore-api/pkg/cache"
+	"github.com/banraiphisan/banraicore-api/pkg/logger"
 )
 
 type ReportService struct {

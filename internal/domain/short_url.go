@@ -2,7 +2,7 @@ package domain
 
 import (
 	"context"
-	"github.com/tubfuzzy/banraicore-api/internal/domain/entity"
+	"github.com/banraiphisan/banraicore-api/internal/domain/entity"
 	"time"
 )
 

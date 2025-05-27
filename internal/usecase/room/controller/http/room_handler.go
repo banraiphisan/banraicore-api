@@ -2,8 +2,8 @@ package http
 
 import (
 	"github.com/gofiber/fiber/v2"
-	"github.com/tubfuzzy/banraicore-api/config"
-	"github.com/tubfuzzy/banraicore-api/internal/domain"
+	"github.com/banraiphisan/banraicore-api/config"
+	"github.com/banraiphisan/banraicore-api/internal/domain"
 )
 
 type RoomHandler struct {

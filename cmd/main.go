@@ -1,7 +1,7 @@
 package main
 
 import (
-	server "github.com/tubfuzzy/banraicore-api/pkg/server"
+	server "github.com/banraiphisan/banraicore-api/pkg/server"
 	"os"
 	"os/signal"
 	"runtime"

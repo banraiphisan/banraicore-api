@@ -2,9 +2,13 @@ name: Deploy to Kubernetes
 
 on:
   push:
-    branches:
-      - main
-      - ci/git-workflow
+    branches: [main]
+    paths-ignore:
+      - 'README.md'
+      - 'docs/**'
+      - '.gitignore'
+      - '.github/**'
+  workflow_dispatch:
 
 jobs:
   deploy:
@@ -12,13 +16,14 @@ jobs:
     runs-on: [ self-hosted, k8s-runner ]
     env:
       DEPLOYMENT_REPO: https://github.com/banraiphisan/deployment
-      DEPLOYMENT_PATH: deployments/banraicore-api/
-      HOME: /home/github-runner
-      KUBECONFIG: /home/github-runner/.kube/config
+      DEPLOYMENT_PATH: k8s/apps/banraicore-api/
+      NAMESPACE: banraiphisan
 
     steps:
       - name: Checkout app repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
 
       - name: Log in to GHCR
         run: echo "${{ secrets.GHCR_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
@@ -27,8 +32,16 @@ jobs:
         run: |
           IMAGE_NAME=ghcr.io/${{ github.repository_owner }}/banraicore-api
           IMAGE_TAG=$(git rev-parse --short HEAD)
-          docker build -t $IMAGE_NAME:$IMAGE_TAG -t $IMAGE_NAME:latest .
-          docker push $IMAGE_NAME:$IMAGE_TAG
+          
+          if docker manifest inspect $IMAGE_NAME:$IMAGE_TAG > /dev/null 2>&1; then
+            echo "Image $IMAGE_NAME:$IMAGE_TAG already exists, skipping build"
+          else
+            echo "Building and pushing $IMAGE_NAME:$IMAGE_TAG"
+            docker build -t $IMAGE_NAME:$IMAGE_TAG .
+            docker push $IMAGE_NAME:$IMAGE_TAG
+          fi
+          
+          docker tag $IMAGE_NAME:$IMAGE_TAG $IMAGE_NAME:latest
           docker push $IMAGE_NAME:latest
 
       - name: Set up kubectl
@@ -40,23 +53,52 @@ jobs:
         run: |
           mkdir -p $HOME/.kube
           echo "${{ secrets.KUBECONFIG_DATA }}" | base64 -d | tee $HOME/.kube/config > /dev/null
+          chmod 600 $HOME/.kube/config
         env:
           HOME: /home/github-runner
 
-      - name: Fix kubeconfig permissions
+      - name: Verify kubectl connection
         run: |
-          chown $USER:$USER $HOME/.kube/config
+          echo "Testing kubectl connection..."
+          kubectl cluster-info --request-timeout=10s
+          echo "kubectl connected successfully"
         env:
           HOME: /home/github-runner
-          USER: github-runner
 
       - name: Checkout deployment manifests
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           repository: banraiphisan/deployment
           token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-          path: k8s
+          path: deployment-repo
 
-      - name: Apply manifests
+      - name: Update image tag in manifests
         run: |
-          kubectl apply -f k8s/${{ env.DEPLOYMENT_PATH }}
+          IMAGE_TAG=$(git rev-parse --short HEAD)
+          IMAGE_NAME=ghcr.io/${{ github.repository_owner }}/banraicore-api
+          
+          find deployment-repo/${{ env.DEPLOYMENT_PATH }} -name "*.yaml" -o -name "*.yml" | xargs sed -i "s|image:.*banraicore-api.*|image: $IMAGE_NAME:$IMAGE_TAG|g"
+          
+          echo "Updated manifests with image: $IMAGE_NAME:$IMAGE_TAG"
+
+      - name: Apply manifests to namespace
+        run: |
+          echo "Deploying to namespace: ${{ env.NAMESPACE }}"
+          
+          kubectl create namespace ${{ env.NAMESPACE }} --dry-run=client -o yaml | kubectl apply -f -
+          
+          kubectl apply -f deployment-repo/${{ env.DEPLOYMENT_PATH }} -n ${{ env.NAMESPACE }}
+          
+          kubectl rollout status deployment/banraicore-api -n ${{ env.NAMESPACE }} --timeout=300s
+          
+          echo "Deployment completed successfully"
+        env:
+          HOME: /home/github-runner
+
+      - name: Verify deployment
+        run: |
+          echo "Deployment status:"
+          kubectl get pods -n ${{ env.NAMESPACE }} -l app=banraicore-api
+          kubectl get svc -n ${{ env.NAMESPACE }} -l app=banraicore-api
+        env:
+          HOME: /home/github-runner

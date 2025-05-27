@@ -1,4 +1,4 @@
-module github.com/tubfuzzy/banraicore-api
+module github.com/banraiphisan/banraicore-api
 
 go 1.23
 

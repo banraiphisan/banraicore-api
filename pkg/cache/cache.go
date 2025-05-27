@@ -1,9 +1,9 @@
 package cache
 
 import (
-	"github.com/tubfuzzy/banraicore-api/config"
-	"github.com/tubfuzzy/banraicore-api/pkg/cache/inmem"
-	"github.com/tubfuzzy/banraicore-api/pkg/cache/redis"
+	"github.com/banraiphisan/banraicore-api/config"
+	"github.com/banraiphisan/banraicore-api/pkg/cache/inmem"
+	"github.com/banraiphisan/banraicore-api/pkg/cache/redis"
 	"time"
 )
 

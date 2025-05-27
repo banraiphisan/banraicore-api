@@ -5,7 +5,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 	jwtware "github.com/gofiber/jwt/v3"
 	"github.com/golang-jwt/jwt/v4"
-	"github.com/tubfuzzy/banraicore-api/config"
+	"github.com/banraiphisan/banraicore-api/config"
 )
 
 func Authorization(allows []string, config config.Configuration) func(*fiber.Ctx) error {

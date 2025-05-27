@@ -2,7 +2,7 @@ package redis
 
 import (
 	"context"
-	"github.com/tubfuzzy/banraicore-api/config"
+	"github.com/banraiphisan/banraicore-api/config"
 	"strings"
 	"time"
 

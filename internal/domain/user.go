@@ -3,7 +3,7 @@ package domain
 import (
 	"context"
 	"github.com/google/uuid"
-	"github.com/tubfuzzy/banraicore-api/internal/domain/entity"
+	"github.com/banraiphisan/banraicore-api/internal/domain/entity"
 )
 
 type UserService interface {
