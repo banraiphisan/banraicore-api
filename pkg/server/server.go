@@ -2,7 +2,7 @@ package server
 
 import (
 	"encoding/json"
-	myapp "github.com/tubfuzzy/banraiphisan-reservation/internal/app"
+	myapp "github.com/tubfuzzy/banraicore-api/internal/app"
 	"os"
 	"time"
 
@@ -12,13 +12,13 @@ import (
 	fiberLog "github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/gofiber/fiber/v2/middleware/recover"
 
-	"github.com/tubfuzzy/banraiphisan-reservation/config"
+	"github.com/tubfuzzy/banraicore-api/config"
 
-	cachePkg "github.com/tubfuzzy/banraiphisan-reservation/pkg/cache"
-	"github.com/tubfuzzy/banraiphisan-reservation/pkg/common/exception"
-	dbPkg "github.com/tubfuzzy/banraiphisan-reservation/pkg/db"
-	loggerPkg "github.com/tubfuzzy/banraiphisan-reservation/pkg/logger"
-	minioPkg "github.com/tubfuzzy/banraiphisan-reservation/pkg/minio"
+	cachePkg "github.com/tubfuzzy/banraicore-api/pkg/cache"
+	"github.com/tubfuzzy/banraicore-api/pkg/common/exception"
+	dbPkg "github.com/tubfuzzy/banraicore-api/pkg/db"
+	loggerPkg "github.com/tubfuzzy/banraicore-api/pkg/logger"
+	minioPkg "github.com/tubfuzzy/banraicore-api/pkg/minio"
 )
 
 type Server struct {

@@ -3,7 +3,7 @@ package logger
 import (
 	"os"
 
-	"github.com/tubfuzzy/banraiphisan-reservation/config"
+	"github.com/tubfuzzy/banraicore-api/config"
 
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"

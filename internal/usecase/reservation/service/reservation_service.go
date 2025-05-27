@@ -1,10 +1,10 @@
 package service
 
 import (
-	"github.com/tubfuzzy/banraiphisan-reservation/config"
-	"github.com/tubfuzzy/banraiphisan-reservation/internal/domain"
-	"github.com/tubfuzzy/banraiphisan-reservation/pkg/cache"
-	"github.com/tubfuzzy/banraiphisan-reservation/pkg/logger"
+	"github.com/tubfuzzy/banraicore-api/config"
+	"github.com/tubfuzzy/banraicore-api/internal/domain"
+	"github.com/tubfuzzy/banraicore-api/pkg/cache"
+	"github.com/tubfuzzy/banraicore-api/pkg/logger"
 )
 
 type ReservationService struct {

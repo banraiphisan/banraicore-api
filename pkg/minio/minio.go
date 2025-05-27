@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"github.com/minio/minio-go/v7"
 	"github.com/minio/minio-go/v7/pkg/credentials"
-	"github.com/tubfuzzy/banraiphisan-reservation/config"
+	"github.com/tubfuzzy/banraicore-api/config"
 	"log"
 	"net/http"
 	"net/url"

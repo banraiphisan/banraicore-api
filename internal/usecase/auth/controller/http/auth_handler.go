@@ -2,8 +2,8 @@ package http
 
 import (
 	"github.com/gofiber/fiber/v2"
-	"github.com/tubfuzzy/banraiphisan-reservation/config"
-	"github.com/tubfuzzy/banraiphisan-reservation/internal/domain"
+	"github.com/tubfuzzy/banraicore-api/config"
+	"github.com/tubfuzzy/banraicore-api/internal/domain"
 )
 
 type AuthHandler struct {

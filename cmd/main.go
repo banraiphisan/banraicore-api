@@ -1,7 +1,7 @@
 package main
 
 import (
-	server "github.com/tubfuzzy/banraiphisan-reservation/pkg/server"
+	server "github.com/tubfuzzy/banraicore-api/pkg/server"
 	"os"
 	"os/signal"
 	"runtime"

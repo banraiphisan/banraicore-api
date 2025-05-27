@@ -2,35 +2,35 @@ package app
 
 import (
 	"github.com/gofiber/fiber/v2"
-	"github.com/tubfuzzy/banraiphisan-reservation/config"
-	"github.com/tubfuzzy/banraiphisan-reservation/pkg/cache"
-	"github.com/tubfuzzy/banraiphisan-reservation/pkg/db"
-	"github.com/tubfuzzy/banraiphisan-reservation/pkg/logger"
-	minioPkg "github.com/tubfuzzy/banraiphisan-reservation/pkg/minio"
+	"github.com/tubfuzzy/banraicore-api/config"
+	"github.com/tubfuzzy/banraicore-api/pkg/cache"
+	"github.com/tubfuzzy/banraicore-api/pkg/db"
+	"github.com/tubfuzzy/banraicore-api/pkg/logger"
+	minioPkg "github.com/tubfuzzy/banraicore-api/pkg/minio"
 
-	authhandler "github.com/tubfuzzy/banraiphisan-reservation/internal/usecase/auth/controller/http"
-	authrepository "github.com/tubfuzzy/banraiphisan-reservation/internal/usecase/auth/repository"
-	authservice "github.com/tubfuzzy/banraiphisan-reservation/internal/usecase/auth/service"
+	authhandler "github.com/tubfuzzy/banraicore-api/internal/usecase/auth/controller/http"
+	authrepository "github.com/tubfuzzy/banraicore-api/internal/usecase/auth/repository"
+	authservice "github.com/tubfuzzy/banraicore-api/internal/usecase/auth/service"
 
-	reporthandler "github.com/tubfuzzy/banraiphisan-reservation/internal/usecase/report/controller/http"
-	reportrepository "github.com/tubfuzzy/banraiphisan-reservation/internal/usecase/report/repository"
-	reportservice "github.com/tubfuzzy/banraiphisan-reservation/internal/usecase/report/service"
+	reporthandler "github.com/tubfuzzy/banraicore-api/internal/usecase/report/controller/http"
+	reportrepository "github.com/tubfuzzy/banraicore-api/internal/usecase/report/repository"
+	reportservice "github.com/tubfuzzy/banraicore-api/internal/usecase/report/service"
 
-	reservationhandler "github.com/tubfuzzy/banraiphisan-reservation/internal/usecase/reservation/controller/http"
-	reservationrepository "github.com/tubfuzzy/banraiphisan-reservation/internal/usecase/reservation/repository"
-	reservationservice "github.com/tubfuzzy/banraiphisan-reservation/internal/usecase/reservation/service"
+	reservationhandler "github.com/tubfuzzy/banraicore-api/internal/usecase/reservation/controller/http"
+	reservationrepository "github.com/tubfuzzy/banraicore-api/internal/usecase/reservation/repository"
+	reservationservice "github.com/tubfuzzy/banraicore-api/internal/usecase/reservation/service"
 
-	roomhandler "github.com/tubfuzzy/banraiphisan-reservation/internal/usecase/room/controller/http"
-	roomrepository "github.com/tubfuzzy/banraiphisan-reservation/internal/usecase/room/repository"
-	roomservice "github.com/tubfuzzy/banraiphisan-reservation/internal/usecase/room/service"
+	roomhandler "github.com/tubfuzzy/banraicore-api/internal/usecase/room/controller/http"
+	roomrepository "github.com/tubfuzzy/banraicore-api/internal/usecase/room/repository"
+	roomservice "github.com/tubfuzzy/banraicore-api/internal/usecase/room/service"
 
-	userhandler "github.com/tubfuzzy/banraiphisan-reservation/internal/usecase/user/controller/http"
-	userrepository "github.com/tubfuzzy/banraiphisan-reservation/internal/usecase/user/repository"
-	userservice "github.com/tubfuzzy/banraiphisan-reservation/internal/usecase/user/service"
+	userhandler "github.com/tubfuzzy/banraicore-api/internal/usecase/user/controller/http"
+	userrepository "github.com/tubfuzzy/banraicore-api/internal/usecase/user/repository"
+	userservice "github.com/tubfuzzy/banraicore-api/internal/usecase/user/service"
 
-	shorturlhandler "github.com/tubfuzzy/banraiphisan-reservation/internal/usecase/shorturl/controller/http"
-	shorturlrepository "github.com/tubfuzzy/banraiphisan-reservation/internal/usecase/shorturl/repository"
-	shorturlservice "github.com/tubfuzzy/banraiphisan-reservation/internal/usecase/shorturl/service"
+	shorturlhandler "github.com/tubfuzzy/banraicore-api/internal/usecase/shorturl/controller/http"
+	shorturlrepository "github.com/tubfuzzy/banraicore-api/internal/usecase/shorturl/repository"
+	shorturlservice "github.com/tubfuzzy/banraicore-api/internal/usecase/shorturl/service"
 )
 
 func NewApplication(api fiber.Router, logger logger.Logger, db *db.DB, cache cache.Engine, config *config.Configuration, minioClient *minioPkg.MinioClient) {

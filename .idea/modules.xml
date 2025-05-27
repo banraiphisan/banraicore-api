@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/banraiphisan-reservations.iml" filepath="$PROJECT_DIR$/.idea/banraiphisan-reservations.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/banraicore-apis.iml" filepath="$PROJECT_DIR$/.idea/banraicore-apis.iml" />
     </modules>
   </component>
 </project>

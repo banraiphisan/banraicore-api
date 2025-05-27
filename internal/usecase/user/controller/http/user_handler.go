@@ -3,9 +3,9 @@ package http
 import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/google/uuid"
-	"github.com/tubfuzzy/banraiphisan-reservation/config"
-	"github.com/tubfuzzy/banraiphisan-reservation/internal/domain"
-	"github.com/tubfuzzy/banraiphisan-reservation/pkg/utils"
+	"github.com/tubfuzzy/banraicore-api/config"
+	"github.com/tubfuzzy/banraicore-api/internal/domain"
+	"github.com/tubfuzzy/banraicore-api/pkg/utils"
 	"strconv"
 )
 
