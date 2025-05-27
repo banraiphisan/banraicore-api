@@ -2,8 +2,8 @@ package db
 
 import (
 	"fmt"
-	"github.com/tubfuzzy/banraiphisan-reservation/config"
-	"github.com/tubfuzzy/banraiphisan-reservation/pkg/common/exception"
+	"github.com/tubfuzzy/banraicore-api/config"
+	"github.com/tubfuzzy/banraicore-api/pkg/common/exception"
 	driver "gorm.io/driver/postgres"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"

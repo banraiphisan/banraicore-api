@@ -1,4 +1,4 @@
-BINARY_NAME=banraiphisan-reservation
+BINARY_NAME=banraicore-api
 BUILD_DIR=bin
 SRC_DIR=./cmd/
 

@@ -4,8 +4,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/tubfuzzy/banraiphisan-reservation/config"
-	"github.com/tubfuzzy/banraiphisan-reservation/pkg/common/exception"
+	"github.com/tubfuzzy/banraicore-api/config"
+	"github.com/tubfuzzy/banraicore-api/pkg/common/exception"
 
 	"github.com/golang-jwt/jwt/v4"
 	"github.com/google/uuid"

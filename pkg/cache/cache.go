@@ -1,9 +1,9 @@
 package cache
 
 import (
-	"github.com/tubfuzzy/banraiphisan-reservation/config"
-	"github.com/tubfuzzy/banraiphisan-reservation/pkg/cache/inmem"
-	"github.com/tubfuzzy/banraiphisan-reservation/pkg/cache/redis"
+	"github.com/tubfuzzy/banraicore-api/config"
+	"github.com/tubfuzzy/banraicore-api/pkg/cache/inmem"
+	"github.com/tubfuzzy/banraicore-api/pkg/cache/redis"
 	"time"
 )
 

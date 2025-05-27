@@ -2,7 +2,9 @@ name: Deploy to Kubernetes
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
+      - ci/git-workflow
 
 jobs:
   deploy:
@@ -10,7 +12,9 @@ jobs:
     runs-on: [ self-hosted, k8s-runner ]
     env:
       DEPLOYMENT_REPO: https://github.com/banraiphisan/deployment
-      DEPLOYMENT_PATH: k8s/apps/banraicore-api/
+      DEPLOYMENT_PATH: deployments/banraicore-api/
+      HOME: /home/github-runner
+      KUBECONFIG: /home/github-runner/.kube/config
 
     steps:
       - name: Checkout app repo
@@ -23,8 +27,9 @@ jobs:
         run: |
           IMAGE_NAME=ghcr.io/${{ github.repository_owner }}/banraicore-api
           IMAGE_TAG=$(git rev-parse --short HEAD)
-          docker build -t $IMAGE_NAME:$IMAGE_TAG .
+          docker build -t $IMAGE_NAME:$IMAGE_TAG -t $IMAGE_NAME:latest .
           docker push $IMAGE_NAME:$IMAGE_TAG
+          docker push $IMAGE_NAME:latest
 
       - name: Set up kubectl
         uses: azure/setup-kubectl@v3
@@ -45,36 +50,6 @@ jobs:
           HOME: /home/github-runner
           USER: github-runner
 
-      - name: Verify kubeconfig and context
-        run: |
-          echo "🔍 Kubeconfig content:"
-          cat $HOME/.kube/config
-          echo "🔍 Available contexts:"
-          kubectl config get-contexts
-          echo "🔍 Current context:"
-          kubectl config current-context
-          echo "✅ Kubeconfig seems loaded if current-context is shown above"
-        env:
-          HOME: /home/github-runner
-
-      - name: Debug kubeconfig
-        run: |
-          echo "🔍 Current contexts:"
-          kubectl config get-contexts
-          echo "🔍 Current context:"
-          kubectl config current-context || echo "⚠️ No current context is set"
-          echo "🔍 Trying to set context to the first available one..."
-          CONTEXT=$(kubectl config get-contexts -o name | head -n1)
-          if [ -n "$CONTEXT" ]; then
-            echo "✅ Using context: $CONTEXT"
-            kubectl config use-context "$CONTEXT"
-          else
-            echo "❌ No contexts found in kubeconfig"
-            exit 1
-          fi
-          echo "🔍 Cluster Info:"
-          kubectl cluster-info
-
       - name: Checkout deployment manifests
         uses: actions/checkout@v3
         with:
@@ -84,4 +59,4 @@ jobs:
 
       - name: Apply manifests
         run: |
-          kubectl apply -f ${{ env.DEPLOYMENT_PATH }}
+          kubectl apply -f k8s/${{ env.DEPLOYMENT_PATH }}

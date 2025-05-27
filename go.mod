@@ -1,4 +1,4 @@
-module github.com/tubfuzzy/banraiphisan-reservation
+module github.com/tubfuzzy/banraicore-api
 
 go 1.23
 
