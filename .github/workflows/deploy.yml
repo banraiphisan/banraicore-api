@@ -16,7 +16,7 @@ jobs:
     runs-on: [ self-hosted, k8s-runner ]
     env:
       DEPLOYMENT_REPO: https://github.com/banraiphisan/deployment
-      DEPLOYMENT_PATH: k8s/apps/banraicore-api/
+      DEPLOYMENT_PATH: deployments/banraicore-api/
       NAMESPACE: banraiphisan
 
     steps:
