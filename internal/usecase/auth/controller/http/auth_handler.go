@@ -1,9 +1,9 @@
 package http
 
 import (
-	"github.com/gofiber/fiber/v2"
 	"github.com/banraiphisan/banraicore-api/config"
 	"github.com/banraiphisan/banraicore-api/internal/domain"
+	"github.com/gofiber/fiber/v2"
 )
 
 type AuthHandler struct {
@@ -30,6 +30,7 @@ func (h AuthHandler) GetUserRolePermissions(c *fiber.Ctx) error {
 	}
 
 	return c.Status(fiber.StatusOK).JSON(fiber.Map{
-		"data": results,
+		"data":   results,
+		"status": fiber.StatusOK,
 	})
 }
